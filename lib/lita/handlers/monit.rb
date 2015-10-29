@@ -16,7 +16,6 @@ module Lita
 
         message = build_message(params)
         target = Source.new(room: Lita.config.handlers.monit.rooms)
-        puts target
         robot.send_message(target, message)
       end
 
@@ -36,7 +35,7 @@ module Lita
 
       def build_message(params)
         <<-MSG.chomp
-[Monit Alert] #{params['message']}
+[Alert] #{params['message']}
 From #{params['service']}
 Description #{params['description']}
         MSG
