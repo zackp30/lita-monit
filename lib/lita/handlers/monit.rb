@@ -6,6 +6,7 @@ module Lita
       def self.default_config(config)
         config.rooms = :all
         config.token = nil
+        config.pings = nil
       end
 
       http.post "/monit", :receive
@@ -38,6 +39,7 @@ module Lita
 [Alert] #{params['message']}
 From #{params['service']}
 Description #{params['description']}
+(Ping #{Lita.config.handlers.monit.pings})
         MSG
       end
     end
