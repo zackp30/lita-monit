@@ -22,7 +22,7 @@ module Lita
 
       private
       def build_params(params)
-        {"message" => "", "service" => "", "description" => ""}.merge!(params)
+        {'message' => '', 'service' => '', 'description' => '', 'ext' => ''}.merge!(params)
       end
 
       def token_valid?(request)
@@ -35,11 +35,15 @@ module Lita
       end
 
       def build_message(params)
+        ext = []
+        ext << "(Ping #{Lita.config.handlers.monit.pings})" if Lita.config.handlers.monit.pings
+        ext << "(Extra: #{params['ext']})" if params['ext'] != ''
+        ext = ext.join("\n")
         <<-MSG.chomp
 [Alert] #{params['message']}
-From #{params['service']}
-Description #{params['description']}
-(Ping #{Lita.config.handlers.monit.pings})
+From: #{params['service']}
+Description: #{params['description']}
+#{ext}
         MSG
       end
     end
